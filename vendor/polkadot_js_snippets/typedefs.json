@@ -1,0 +1,8 @@
+{
+  "PhalaCrowdloanReferrerRemark": {
+    "magic": "Bytes",
+    "paraId": "ParaId",
+    "referrer": "AccountId",
+    "referrerSingnature": "Signature"
+  }
+}
