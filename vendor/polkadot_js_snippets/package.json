@@ -1,0 +1,14 @@
+{
+  "name": "polkadot-js-snippets",
+  "version": "1.0.0",
+  "license": "MIT",
+  "scripts": {},
+  "dependencies": {
+    "@polkadot/api": "^4.7.2",
+    "@polkadot/util": "^6.3.1",
+    "@polkadot/util-crypto": "^6.3.1",
+    "bn.js": "^5.2.0",
+    "dotenv": "^8.2.0",
+    "yargs": "^16.2.0"
+  }
+}
