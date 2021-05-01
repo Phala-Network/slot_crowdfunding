@@ -1,8 +1,8 @@
-{
+exports.typedefs = {
   "PhalaCrowdloanReferrerRemark": {
     "magic": "Bytes",
     "paraId": "ParaId",
     "referrer": "AccountId",
-    "referrerSingnature": "Signature"
+    "referrerHash": "Bytes"
   }
 }

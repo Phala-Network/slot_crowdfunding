@@ -18,10 +18,14 @@ const argv = yargs(hideBin(process.argv))
 
 require('dotenv').config();
 
+const EXTRINSIC_BATCH = new Uint8Array([8, 90, 0])
+
 const { HttpProvider } = require('@polkadot/rpc-provider/http');
 const { ApiPromise, WsProvider } = require('@polkadot/api');
-const { hexToU8a, isHex } = require('@polkadot/util')
+const { hexToU8a, isHex } = require('@polkadot/util');
 const BN = require('bn.js');
+const { getReferrerFromRemark } = require('./referrer_remark');
+const { typedefs } = require('./typedefs')
 
 const bn1e9 = new BN(10).pow(new BN(9));
 const amountToFloat = (amount) => {
@@ -50,7 +54,7 @@ const amountToFloat = (amount) => {
 // ]
 // }
 
-(async() => {
+(async () => {
   try {
     const endpoint = argv["endpoint"]
     const paraId = argv["para-id"]
@@ -67,7 +71,8 @@ const amountToFloat = (amount) => {
     }
 
     const api = await ApiPromise.create({
-      provider: provider
+      provider: provider,
+      types: typedefs
     })
 
     let blockHash = null
@@ -85,29 +90,55 @@ const amountToFloat = (amount) => {
       process.exit(0)
     }
 
-    let contributions = []
-    const events = blockHash ? await api.query.system.events.at(blockHash) : await api.query.system.events();
+    const contributions = []
+    const referrerRemarks = []
+
+    const [timestamp, events, { block: { extrinsics } }] = await Promise.all([
+      api.query.timestamp.now.at(blockHash),
+      api.query.system.events.at(blockHash),
+      api.rpc.chain.getBlock(blockHash),
+    ])
 
     events.forEach(record => {
       const { event } = record
-
       if (event.section === 'crowdloan' && event.method === 'Contributed') {
-        const fund_index = event.data[1].toJSON()
-        if (paraId === undefined || paraId === fund_index) {
+        const fundIndex = event.data[1].toJSON()
+        if (paraId === undefined || paraId === fundIndex) {
           // Contributed to a crowd sale. [who, fund_index, amount]
           // Contributed(AccountId, ParaId, Balance)
           contributions.push({
             who: event.data[0].toHuman(),
-            fund_index: fund_index,
+            fund_index: fundIndex,
             amount: amountToFloat(event.data[2])
           })
         }
       }
     })
 
-    // console.log(contributions)
+    extrinsics.forEach(record => {
+      if (record.method.section === 'utility' && record.method.method === 'batch') {
+        let referrer
+        try {
+          const remark = record.args[0][0].args[0]
+          referrer = getReferrerFromRemark({ api, remark })
+        } catch (error) {
+          console.warn('ignoring invlid remark', error)
+        }
+        if (referrer) {
+          referrerRemarks.push({
+            who: record._raw.signature.signer.toString(),
+            referrer: referrer.toString(),
+            para_id: 3000, // hard-coded in the parse function
+          })
+        }
+      }
+    })
 
-    console.log(JSON.stringify(contributions))
+    console.log(JSON.stringify({
+      referrer_remarks: referrerRemarks,
+      contributions,
+      timestamp: timestamp.toNumber()
+    }))
     process.exit(0)
   } catch (err) {
     console.error(err);
