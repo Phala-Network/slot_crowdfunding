@@ -6,9 +6,9 @@
     "start": "node index.js"
   },
   "dependencies": {
-    "@polkadot/api": "^4.13.1",
-    "@polkadot/util": "^6.7.1",
-    "@polkadot/util-crypto": "^6.7.1",
+    "@polkadot/api": "^4.15.1",
+    "@polkadot/util": "^6.9.1",
+    "@polkadot/util-crypto": "^6.9.1",
     "bn.js": "^5.2.0",
     "decimal.js": "^10.2.1",
     "dotenv": "^8.6.0",
