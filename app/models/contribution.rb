@@ -42,10 +42,11 @@ class Contribution < ApplicationRecord
       stat.increment! :amount, amount
     end
 
+    EARLY_BIRD_EXPIRES_AT = Time.utc(2021, 6, 22, 12, 0, 0).freeze
     def calculate_reward
       return unless campaign.reward_strategy == "1"
 
-      reward_coefficient = campaign.early_bird_until.present? && timestamp.to_date < campaign.early_bird_until ? 101 : 100
+      reward_coefficient = timestamp.to_date <= EARLY_BIRD_EXPIRES_AT ? 101 : 100
       self.reward_amount =
         if campaign.raised_amount >= campaign.cap
           0
