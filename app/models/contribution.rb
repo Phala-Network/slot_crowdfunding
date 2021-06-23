@@ -46,7 +46,7 @@ class Contribution < ApplicationRecord
     def calculate_reward
       return unless campaign.reward_strategy == "1"
 
-      reward_coefficient = timestamp.to_date <= EARLY_BIRD_EXPIRES_AT ? 101 : 100
+      reward_coefficient = timestamp <= EARLY_BIRD_EXPIRES_AT ? 101 : 100
       self.reward_amount =
         if campaign.raised_amount >= campaign.cap
           0
