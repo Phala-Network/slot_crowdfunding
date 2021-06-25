@@ -22,7 +22,7 @@
     "@polkadot/util-crypto" "^6.9.1"
     "@polkadot/x-rxjs" "^6.9.1"
 
-"@polkadot/api@4.15.1", "@polkadot/api@^4.13.1":
+"@polkadot/api@4.15.1", "@polkadot/api@^4.15.1":
   version "4.15.1"
   resolved "https://registry.yarnpkg.com/@polkadot/api/-/api-4.15.1.tgz#c9a041b855639a98d6df0706c7546e076a8d5727"
   integrity sha512-MsGKpTAmnkxIN+Zu21NPKWot4xLsDGn/cdranf+P2OjqB80E6m8zkQOE7ug3912WIi5byZp55TSOE9UUzAAW3Q==
@@ -114,7 +114,7 @@
     "@polkadot/util-crypto" "^6.9.1"
     "@polkadot/x-rxjs" "^6.9.1"
 
-"@polkadot/util-crypto@6.9.1", "@polkadot/util-crypto@^6.7.1", "@polkadot/util-crypto@^6.9.1":
+"@polkadot/util-crypto@6.9.1", "@polkadot/util-crypto@^6.9.1":
   version "6.9.1"
   resolved "https://registry.yarnpkg.com/@polkadot/util-crypto/-/util-crypto-6.9.1.tgz#175a2bbc040785599730baee35f0235226b8343e"
   integrity sha512-lniY8bhRoayA8PD3NHyvpAL2N9YETDll6HbxaOIkGS9nnVmlOjIvslcd343b30rj7/qSV72w+8qkReHj650aQw==
@@ -136,7 +136,7 @@
     tweetnacl "^1.0.3"
     xxhashjs "^0.2.2"
 
-"@polkadot/util@6.9.1", "@polkadot/util@^6.7.1", "@polkadot/util@^6.9.1":
+"@polkadot/util@6.9.1", "@polkadot/util@^6.9.1":
   version "6.9.1"
   resolved "https://registry.yarnpkg.com/@polkadot/util/-/util-6.9.1.tgz#009a9e0771523398517dbf3a978285b071f6081c"
   integrity sha512-RTIn8+Xdgywj8Bl7D12557zi8iIoUvDpAJztp/CwIq4O3jEw6Y/7lqNX/K6OXhZm/gZf7tFgFnvGlsIuNbtYcQ==
