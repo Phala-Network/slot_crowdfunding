@@ -29,7 +29,6 @@ class RemarkReferrerEvent < ApplicationRecord
         next if referrer_contributor.referrer_id == contributor.id
 
         referrer_contributor.referrals << contributor
-        referrer_contributor.reload
         referrer_contributor.calculate_reward!
       end
 

@@ -53,6 +53,7 @@ class Contributor < ApplicationRecord
   end
 
   def calculate_reward!
+    reload
     calculate_reward
     save!
   end
