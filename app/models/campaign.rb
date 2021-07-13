@@ -53,7 +53,7 @@ class Campaign < ApplicationRecord
   def export_contributions
     arr = []
 
-    contributions.order(timestamp: :asc).includes(:contributor).find_each do |c|
+    contributions.includes(:contributor).find_each do |c|
       arr << [
         c.contributor.address,
         c.contributor.referrer_id.present? ? 1 : 0,
@@ -71,10 +71,12 @@ class Campaign < ApplicationRecord
   def export_contributors
     arr = []
 
-    contributors.order(amount: :desc).where("amount > 0 OR promotion_reward_amount > 0").find_each do |c|
+    contributors.includes(:referrals).where("amount > 0 OR promotion_reward_amount > 0").find_each do |c|
       arr << [
         c.address,
         c.referrer_id.present? ? 1 : 0,
+        c.referrals.count,
+        c.referrals.map(&:amount).reduce(&:+).to_f.truncate(4),
         c.amount.to_f.truncate(4),
         (c.reward_amount + c.promotion_reward_amount).to_f.truncate(4)
       ]
