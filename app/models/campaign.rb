@@ -53,10 +53,10 @@ class Campaign < ApplicationRecord
   def export_contributions
     arr = []
 
-    contributions.includes(:contributor).find_each do |c|
+    contributions.includes(contributor: :referrer).find_each do |c|
       arr << [
         c.contributor.address,
-        c.contributor.referrer_id.present? ? 1 : 0,
+        c.contributor.referrer&.address,
         c.on_chain_hash,
         c.timestamp,
         c.amount,
@@ -74,7 +74,7 @@ class Campaign < ApplicationRecord
     contributors.includes(:referrals).where("amount > 0 OR promotion_reward_amount > 0").find_each do |c|
       arr << [
         c.address,
-        c.referrer_id.present? ? 1 : 0,
+        c.referrer&.address,
         c.referrals.count,
         c.referrals.map(&:amount).reduce(&:+).to_f.truncate(4),
         c.amount.to_f.truncate(4),
